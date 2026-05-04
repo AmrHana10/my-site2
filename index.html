@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<script>
+function startQRScanner() {
+    const qrReader = new Html5Qrcode("qr-reader");
+
+    Html5Qrcode.getCameras().then(devices => {
+        if (devices && devices.length) {
+
+            qrReader.start(
+                { facingMode: "environment" }, // 👈 الكاميرا الخلفية
+                {
+                    fps: 10,
+                    qrbox: 250
+                },
+                (decodedText) => {
+
+                    qrReader.stop();
+                    window.location.href = decodedText;
+
+                },
+                (error) => {
+                    // تجاهل الأخطاء أثناء المسح
+                }
+            );
+        }
+    });
+}
+</script>
+
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+<button onclick="startQRScanner()" style="padding:10px;background:#007bff;color:#fff;">
+  QR تسجيل الدخول بواسطة
+</button>
+
+<div id="qr-reader" style="width:300px;margin-top:10px;"></div>
+
+</body>
+</html>
+
+
+
